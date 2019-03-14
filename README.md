@@ -1,4 +1,4 @@
-# golang socket.io [<img src="https://avatars3.githubusercontent.com/u/10002920" alt="WeDeploy logo" width="90" height="90" align="right">](https://wedeploy.com/)
+# golang socket.io
 
 [![GoDoc](https://godoc.org/github.com/wedeploy/gosocketio?status.svg)](https://godoc.org/github.com/wedeploy/gosocketio) [![Build Status](https://travis-ci.org/wedeploy/gosocketio.svg?branch=master)](https://travis-ci.org/wedeploy/gosocketio)
 
