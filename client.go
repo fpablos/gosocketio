@@ -11,9 +11,9 @@ import (
 	"time"
 
 	ws "github.com/gorilla/websocket"
-	"github.com/wedeploy/gosocketio/ack"
-	"github.com/wedeploy/gosocketio/internal/protocol"
-	"github.com/wedeploy/gosocketio/websocket"
+	"github.com/fpablos/gosocketio/ack"
+	"github.com/fpablos/gosocketio/internal/protocol"
+	"github.com/fpablos/gosocketio/websocket"
 )
 
 const (
