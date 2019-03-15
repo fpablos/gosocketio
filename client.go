@@ -33,15 +33,15 @@ const (
 // Connect dials and waits for the "connection" event.
 // It blocks for the timeout duration. If the connection is not established in time,
 // it closes the connection and returns an error.
-func Connect(u url.URL, tr *websocket.Transport) (c *Client, err error) {
-	return ConnectContext(context.Background(), u, tr)
+func Connect(u url.URL, p []string, tr *websocket.Transport) (c *Client, err error) {
+	return ConnectContext(context.Background(), u, p, tr)
 }
 
 // ConnectContext dials and waits for the "connection" event.
 // It blocks for the timeout duration. If the connection is not established in time,
 // it closes the connection and returns an error.
-func ConnectContext(ctx context.Context, u url.URL, tr *websocket.Transport) (c *Client, err error) {
-	c, err = dialContext(ctx, u, tr)
+func ConnectContext(ctx context.Context, u url.URL, p []string, tr *websocket.Transport) (c *Client, err error) {
+	c, err = dialContext(ctx, u, p, tr)
 
 	if err != nil {
 		return nil, err
@@ -88,18 +88,18 @@ func ConnectContext(ctx context.Context, u url.URL, tr *websocket.Transport) (c 
 // DialOnly connects to the host and initializes the socket.io protocol.
 // It doesn't wait for socket.io connection handshake.
 // You probably want to use Connect instead. Only exposed for debugging.
-func DialOnly(u url.URL, tr *websocket.Transport) (c *Client, err error) {
-	return DialOnlyContext(context.Background(), u, tr)
+func DialOnly(u url.URL, p []string, tr *websocket.Transport) (c *Client, err error) {
+	return DialOnlyContext(context.Background(), u, p, tr)
 }
 
 // DialOnlyContext connects to the host and initializes the socket.io protocol.
 // It doesn't wait for socket.io connection handshake.
 // You probably want to use Connect instead. Only exposed for debugging.
-func DialOnlyContext(ctx context.Context, u url.URL, tr *websocket.Transport) (c *Client, err error) {
-	return dialContext(ctx, u, tr)
+func DialOnlyContext(ctx context.Context, u url.URL, p []string, tr *websocket.Transport) (c *Client, err error) {
+	return dialContext(ctx, u, p, tr)
 }
 
-func dialContext(ctx context.Context, u url.URL, tr *websocket.Transport) (c *Client, err error) {
+func dialContext(ctx context.Context, u url.URL, p []string, tr *websocket.Transport) (c *Client, err error) {
 	c = &Client{}
 	c.init()
 
@@ -108,6 +108,14 @@ func dialContext(ctx context.Context, u url.URL, tr *websocket.Transport) (c *Cl
 	var query = u.Query()
 	query.Add("EIO", "3")
 	query.Add("transport", "websocket")
+
+	if len(p) > 0 {
+		for _, element := range p {
+			s := strings.Split(element, "=")
+			query.Add(s[0], s[1])
+		}
+	}
+
 	u.RawQuery = query.Encode()
 
 	if !strings.HasSuffix(u.Path, "/socket.io") || !strings.HasSuffix(u.Path, "/socket.io/") {

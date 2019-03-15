@@ -38,8 +38,9 @@ func main() {
 		Scheme: "ws",
 		Host:   "localhost:3000",
 	}
+	var params []string
 
-	c, err := gosocketio.Connect(u, websocket.NewTransport())
+	c, err := gosocketio.Connect(u, params, websocket.NewTransport())
 
 	if err != nil {
 		panic(err) // you should prefer returning errors than panicking
